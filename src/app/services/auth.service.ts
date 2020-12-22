@@ -13,11 +13,17 @@ import { Usuario } from '../models/usuario.model';
 })
 export class AuthService {
 
+  private _user: Usuario;
+
   private userSubscription: Subscription;
 
   constructor(private auth: AngularFireAuth,
               public firestore: AngularFirestore,
               private store: Store<AppState>) { }
+
+  get user() {
+    return this._user;
+  };
 
   initAuthListener = ()  => {
     this.auth.authState.subscribe(fuser => {      
@@ -26,12 +32,14 @@ export class AuthService {
         .pipe(          
           map((user: any) => Usuario.fromFirebase(user))
         )
-        .subscribe((user) => {          
+        .subscribe((user) => {     
+          this._user = user;     
           this.store.dispatch(authAction.setUser({user}));          
         });
         
       }
       else{
+        this._user = null;
         this.userSubscription.unsubscribe();
         this.store.dispatch(authAction.unSetUser());
       }          

@@ -1,58 +1,52 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Agregar Ingreso / Egreso</h4>
-            <p class="card-description">
-              Especifique el monto y el tipo
-            </p>
+            <div class="card-body">
+                <h4 class="card-title">Agregar Ingreso / Egreso</h4>
+                <p class="card-description">
+                    Especifique el monto y el tipo
+                </p>
 
-            <form>
-              
-              <div class="form-group">
-                <label>Descripción</label>
-                <input type="text" 
-                       class="form-control" 
-                       placeholder="Descripción"
-                       name="descripcion">
-              </div>
+                <form [formGroup]="ingresoForm" (ngSubmit)="guardar()">
 
-              <div class="form-group">
-                  <label>Monto</label>
-                  <input type="number" 
-                         class="form-control" 
-                         placeholder="Monto"
-                         name="monto">
-                    <p>
-                      Debe de ser un monto positivo
-                    </p>
-                </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <input type="text" formControlName="descripcion" class="form-control" placeholder="Descripción" name="descripcion">
+                    </div>
 
-              <div class="form-group">
-                  <label>Tipo</label>
-                  <br>
-                  <button type="button" class="btn btn-primary btn-block">Ingreso</button>
-                  <!-- <button type="button" class="btn btn-warning btn-block">Egreso</button> -->
-              </div>
+                    <div class="form-group">
+                        <label>Monto</label>
+                        <input type="number" formControlName="monto" class="form-control" placeholder="Monto" name="monto">
+                        <p>
+                            Debe de ser un monto positivo
+                        </p>
+                    </div>
 
-              <hr>
-              <button type="button" class="btn btn-success mr-2">
-                <i class="fa fa-save"></i>
-                Agregar
+                    <div class="form-group">
+                        <label>Tipo</label>
+                        <br>
+                        <button type="button" (click)="tipo='egreso'" class="btn btn-primary btn-block" *ngIf="tipo ==='ingreso'">Ingreso</button>
+                        <button type="button" (click)="tipo='ingreso'" class="btn btn-warning btn-block" *ngIf="tipo ==='egreso'">Egreso</button>
+                    </div>
+
+                    <hr>
+                    <button [disabled]="ingresoForm.invalid || loading" type="submit" class="btn btn-success mr-2">
+                <i class="fa" [ngClass]="{'fa-save': !loading, 'fa-spin': loading, 'fa-sync': loading}"></i>
+                <!-- <i class="fa fa-spin fa-sync"></i> -->
+                {{loading ? 'Cargando..' : 'Agregar'}}
               </button>
 
-              <!-- 
+                    <!-- 
                 <button disabled class="btn btn-success mr-2">
                   <i class="fa fa-spin fa-sync"></i>
                   Espere por favor...
                 </button> 
               -->
-              
-              <button type="reset" class="btn btn-light">Cancelar</button>
 
-            </form>
-          </div>
+                    <button type="reset" class="btn btn-light">Cancelar</button>
+
+                </form>
+            </div>
         </div>
-      </div>
+    </div>
 </div>
-          
